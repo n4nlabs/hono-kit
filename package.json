@@ -1,0 +1,28 @@
+{
+	"name": "hono-kit",
+	"module": "index.ts",
+	"type": "module",
+	"private": false,
+	"author": {
+		"name": "Nathan Ferreira",
+		"email": "n4nlabs@n4nlabs.com"
+	},
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/n4nlabs/hono-kit.git"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"prettier": "^3.6.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"exports": {
+		"./exception": {
+			"import": "./utils/error.js",
+			"types": "./utils/error.d.ts"
+		}
+	}
+}
