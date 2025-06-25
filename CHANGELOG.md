@@ -1,3 +1,11 @@
+## v0.0.2 - 2025-06-25
+[Compare changes](https://github.com/n4nlabs/hono-kit/compare/v0.0.1...v0.0.2)
+
+### Others
+ci: remove unused global type definitions and clean up build script [`ca5221f`](https://github.com/n4nlabs/hono-kit/ca5221f)
+
+
+
 ## v0.0.1 - 2025-06-25
 
 ### Added

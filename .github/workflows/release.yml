@@ -50,6 +50,22 @@ jobs:
                   name: dist-${{ github.ref_name }}
                   path: dist/
 
+            - name: Configure npm auth
+              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+            - name: Copy README, LICENSE and package.json to dist
+              run: |
+                  cp package.json dist/package.json
+                  cp README.md dist/
+                  cp LICENSE dist/
+
+            - name: Publish to NPM
+              working-directory: dist
+              run: npm publish --access public
+
+            - name: Checkout main branch for changelog update
+              run: git checkout main
+
             - name: Update CHANGELOG.md
               run: |
                   TAG=${{ github.ref_name }}
@@ -86,19 +102,6 @@ jobs:
                   echo -e "\n" >> TEMP_CHANGELOG.md
                   cat CHANGELOG.md >> TEMP_CHANGELOG.md
                   mv TEMP_CHANGELOG.md CHANGELOG.md
-
-            - name: Configure npm auth
-              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-
-            - name: Copy README, LICENSE and package.json to dist
-              run: |
-                  cp package.json dist/package.json
-                  cp README.md dist/
-                  cp LICENSE dist/
-
-            - name: Publish to NPM
-              working-directory: dist
-              run: npm publish --access public
 
             - name: Commit changelog e package.json
               run: |
