@@ -10,8 +10,7 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"build": "bun run ./scripts/build.ts",
-		"prepublishOnly": "bun run build"
+		"build": "bun run ./scripts/build.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -20,11 +19,6 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"files": [
-		"dist",
-		"LICENSE.txt",
-		"README.md"
-	],
 	"devDependencies": {
 		"@types/bun": "latest",
 		"prettier": "^3.6.0"
