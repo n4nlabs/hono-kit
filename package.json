@@ -1,41 +1,41 @@
 {
-	"version": "0.0.1",
-	"name": "@n4nlabs/hono-kit",
-	"module": "dist/index.js",
-	"type": "module",
-	"private": false,
-	"author": {
-		"name": "Nathan Ferreira",
-		"email": "n4nlabs@n4nlabs.com"
-	},
-	"license": "MIT",
-	"scripts": {
-		"build": "bun run ./scripts/build.ts"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/n4nlabs/hono-kit.git"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"devDependencies": {
-		"@types/bun": "latest",
-		"prettier": "^3.6.0"
-	},
-	"peerDependencies": {
-		"hono": "^4.8.2",
-		"tsc-alias": "^1.8.16",
-		"typescript": "^5",
-		"zod": "^3.25.67"
-	},
-	"dependencies": {
-		"colorette": "^2.0.20"
-	},
-	"exports": {
-		".": {
-			"import": "./index.js",
-			"types": "./index.d.ts"
-		}
-	}
+    "version": "0.0.3",
+    "name": "@n4nlabs/hono-kit",
+    "module": "dist/index.js",
+    "type": "module",
+    "private": false,
+    "author": {
+        "name": "Nathan Ferreira",
+        "email": "n4nlabs@n4nlabs.com"
+    },
+    "license": "MIT",
+    "scripts": {
+        "build": "bun run ./scripts/build.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/n4nlabs/hono-kit.git"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@types/bun": "latest",
+        "prettier": "^3.6.0"
+    },
+    "peerDependencies": {
+        "hono": "^4.8.2",
+        "tsc-alias": "^1.8.16",
+        "typescript": "^5",
+        "zod": "^3.25.67"
+    },
+    "dependencies": {
+        "colorette": "^2.0.20"
+    },
+    "exports": {
+        ".": {
+            "import": "./index.js",
+            "types": "./index.d.ts"
+        }
+    }
 }

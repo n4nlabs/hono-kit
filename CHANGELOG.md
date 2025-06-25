@@ -1,3 +1,11 @@
+## v0.0.3 - 2025-06-25
+[Compare changes](https://github.com/n4nlabs/hono-kit/compare/v0.0.2...v0.0.3)
+
+### Others
+- ci: reorganize publishing steps in release workflow [`740d264`](https://github.com/n4nlabs/hono-kit/commit/740d264)
+
+
+
 ## v0.0.2 - 2025-06-25
 [Compare changes](https://github.com/n4nlabs/hono-kit/compare/v0.0.1...v0.0.2)
 
