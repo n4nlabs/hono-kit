@@ -1,6 +1,6 @@
 {
 	"version": "0.0.1",
-	"name": "@n4nlabs/hono-kit3",
+	"name": "@n4nlabs/hono-kit",
 	"module": "dist/index.js",
 	"type": "module",
 	"private": false,
