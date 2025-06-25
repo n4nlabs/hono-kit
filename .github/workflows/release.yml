@@ -1,0 +1,101 @@
+name: Release
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    test:
+        uses: ./.github/workflows/test.yml
+        with:
+            version: ${{ github.ref_name }}
+
+    build:
+        needs: test
+        uses: ./.github/workflows/build.yml
+        with:
+            version: ${{ github.ref_name }}
+
+    publish:
+        needs: build
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            packages: write
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  fetch-tags: true
+
+            - name: Setup Git user
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+            - name: Update package.json version
+              run: |
+                  TAG=${{ github.ref_name }}
+                  VERSION=${TAG#v}
+                  jq --indent 4 --arg v "$VERSION" '.version = $v' package.json > temp.json && mv temp.json package.json
+
+            - name: Download build artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  name: dist-${{ github.ref_name }}
+                  path: dist/
+
+            - name: Update CHANGELOG.md
+              run: |
+                  TAG=${{ github.ref_name }}
+                  REPO_URL="https://github.com/${{ github.repository }}"
+                  DATE=$(date +'%Y-%m-%d')
+                  LAST_TAG=$(git describe --tags --abbrev=0 HEAD^)
+
+                  echo "## $TAG - $DATE" > TEMP_CHANGELOG.md
+                  echo "[Compare changes]($REPO_URL/compare/$LAST_TAG...$TAG)" >> TEMP_CHANGELOG.md
+
+                  COMMITS=$(git log "$LAST_TAG"..HEAD --pretty=format:"%h %s" | grep -vE "^.*release:")
+
+                  while IFS= read -r line; do
+                    HASH=$(echo "$line" | cut -d' ' -f1)
+                    MSG=$(echo "$line" | cut -d' ' -f2-)
+                    LINK="[\`$HASH\`]($REPO_URL/commit/$HASH)"
+
+                    if [[ $MSG == feat:* ]]; then
+                      ADDED+="- ${MSG} $LINK"$'\n'
+                    elif [[ $MSG == fix:* ]]; then
+                      FIXED+="- ${MSG} $LINK"$'\n'
+                    elif [[ $MSG == breaking:* ]]; then
+                      BREAKING+="- ${MSG} $LINK"$'\n'
+                    else
+                      OTHERS+="- ${MSG} $LINK"$'\n'
+                    fi
+                  done <<< "$COMMITS"
+
+                  if [ -n "$ADDED" ]; then echo -e "\n### Added\n$ADDED" >> TEMP_CHANGELOG.md; fi
+                  if [ -n "$FIXED" ]; then echo -e "\n### Fixed\n$FIXED" >> TEMP_CHANGELOG.md; fi
+                  if [ -n "$BREAKING" ]; then echo -e "\n### Breaking Changes\n$BREAKING" >> TEMP_CHANGELOG.md; fi
+                  if [ -n "$OTHERS" ]; then echo -e "\n### Others\n$OTHERS" >> TEMP_CHANGELOG.md; fi
+
+                  echo -e "\n" >> TEMP_CHANGELOG.md
+                  cat CHANGELOG.md >> TEMP_CHANGELOG.md
+                  mv TEMP_CHANGELOG.md CHANGELOG.md
+
+            - name: Configure npm auth
+              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+            - name: Copy package.json to dist
+              run: cp package.json dist/package.json
+
+            - name: Publish to NPM
+              working-directory: dist
+              run: npm publish --access public
+
+            - name: Commit changelog e package.json
+              run: |
+                  git add CHANGELOG.md package.json
+                  git commit -m "release: update changelog and package.json to ${{ github.ref_name }}"
+                  git push origin HEAD:main
