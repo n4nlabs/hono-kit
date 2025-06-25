@@ -1,5 +1,5 @@
 import { $ } from "bun";
-import { readdirSync, readFileSync, statSync, writeFileSync } from "fs";
+import { readdirSync, statSync } from "fs";
 import { join } from "path";
 
 function isTestFile(path: string): boolean {
@@ -32,11 +32,5 @@ await Bun.build({
 
 await $`tsc --project tsconfig.build.json`;
 await $`tsc-alias -p tsconfig.build.json`;
-
-const dtsPath = "dist/index.d.ts";
-const currentContent = readFileSync(dtsPath, "utf8");
-
-const header = `/// <reference path="global.d.ts" />\n\n`;
-writeFileSync(dtsPath, header + currentContent);
 
 console.log("✅ Build complete!");
