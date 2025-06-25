@@ -57,7 +57,7 @@ jobs:
               run: |
                   cp package.json dist/package.json
                   cp README.md dist/
-                  cp LICENSE.txt dist/
+                  cp LICENSE dist/
 
             - name: Publish to NPM
               working-directory: dist
