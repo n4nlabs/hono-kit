@@ -1,8 +1,11 @@
+import { getRuntimeKey } from "hono/adapter";
 import { z } from "zod/v4";
+
+const runtimeEnv = getRuntimeKey() === "bun" ? Bun.env : process.env;
 
 export function createEnv<T extends z.ZodRawShape>(
 	bindings: T,
-	sourceEnv: Record<string, string | undefined> = Bun.env,
+	sourceEnv: Record<string, string | undefined> = runtimeEnv,
 ) {
 	const schema = z.object(bindings);
 	const result = schema.safeParse(sourceEnv);
