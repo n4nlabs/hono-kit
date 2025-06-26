@@ -1,3 +1,11 @@
+## v0.0.4 - 2025-06-26
+[Compare changes](https://github.com/n4nlabs/hono-kit/compare/v0.0.3...v0.0.4)
+
+### Others
+- docs: fix package name in README.md for @n4nlabs/hono-kit [`2648802`](https://github.com/n4nlabs/hono-kit/commit/2648802)
+
+
+
 ## v0.0.3 - 2025-06-25
 [Compare changes](https://github.com/n4nlabs/hono-kit/compare/v0.0.2...v0.0.3)
 
