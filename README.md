@@ -1,5 +1,5 @@
 
-# @n4nlabs/schooltrack-core
+# @n4nlabs/hono-kit
 
 Core library for Hono-based microservices used in the Hono platform, maintained by N4nLabs.
 
